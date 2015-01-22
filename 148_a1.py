@@ -99,6 +99,21 @@ class GameState():
         raise NotImplementedError
         
         
+class SsGameState():
+   def __init__(self, start_val):
+      self._start_val = random.randint(game_min, game_max)
+      
+      
+      
+   def list_moves(self):
+      
+   def game_over(self):
+      
+   def game_updater(self):
+      
+      
+        
+        
         
         
         
@@ -110,5 +125,6 @@ class GameState():
 
 
 
-while game_over() == False:
-    cur_val -= int()
+#while game_over() == False:
+ #   cur_val -= int()
+ (game_min, game_max) = tuple(input("Please input the minimum and maximum for game's start value in following format: min, max")       # Ask user for start_val's range then assign them on this line.
