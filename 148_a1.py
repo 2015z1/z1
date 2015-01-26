@@ -100,41 +100,22 @@ class GameState():
         raise NotImplementedError
         
         
-<<<<<<< HEAD
+
 class SsGameState(GameState):
     
     def __init__(self, playerA, firstplayer_index):
         self.start_val = random.randint(game_min, game_max)  #unassigned var
         GameState.__init__(self, playerA, firstplayer_index)
-=======
-class SsGameState():
-   def __init__(self, start_val):
-      self._start_val = random.randint(game_min, game_max)
-      
-      
-      
-   def list_moves(self):
-      
-   def game_over(self):
-      
-   def game_updater(self):
-      
-      
-        
-        
->>>>>>> FETCH_HEAD
-        
-       
-       
-       
-    def list_moves(self):
-        counter = 0
-        self.list_moves_str = "" 
-        for number in range(self.start_val):
-            if math.sqrt(number) % 1 == 0.0:
-                list_moves_str += (str(counter) + ": " + str(number) + "\n")
-                counter += 1
-        return list_moves_str
+
+
+    def list_moves():
+    counter = 0
+    list_moves_str = "" 
+    for number in range(20):
+        if math.sqrt(number) % 1 == 0.0:
+            list_moves_str += "Choice " + (str(counter) + ": " + str(number) + "\n")
+            counter += 1
+    return list_moves_str
          
        
     def game_over(self):
@@ -146,13 +127,32 @@ class SsGameState():
     def ssgame_updater(self):
         if game_over() == True:
             return None
-        else:
+         else:
             self.start_val -= client_move  #unassigned var
             
 class Strategy():
+   '''General Games Strategy'''
     
-    def __init__(self):
-        pass
+   def __init__(self):
+      pass
+        
+class Random_move(self):
+       ''' Generic solution. Choose a move from legel list of moves, returns that integer val'''
+       # Parse for int val from a given list of moves 
+       def __init__(self, list_moves):
+         self.list_moves = list_moves()
+         self.list_moves = self.listmoves.split('\n')  #['Choice 0: 0', 'Choice 1: 1']
+       def random_choice(self):
+         ''' (Strategy_random_move)'''
+         choice = random.choice(list_moves)  # 'Choice 0: 0'
+       while choice == '':                  # To avoid cases where the list conaints ""
+         choice = random.choice(list_moves)
+         
+         
+      def ssparse_int_from_move(self):
+      # Codes below are specific to SubtractSquare
+         choice_break_down = choice.split(': ')  # ['Choice 0', '0']
+         return int(choice_break_down[-1])    # index is hardcoded, hence position must be in form like above 
     
 <<<<<<< HEAD
 =======
