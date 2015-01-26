@@ -79,7 +79,7 @@ class GameState():
     def __init__(self, playerA, firstplayer_index):
         ''' Upon init, program needs info about 1) Client's name 2) Which player will go first'''
         self.playerA = playerA
-        self.list_players = [playerA, "computer"]
+        self.list_players = (playerA, "Computer")
         self.cur_player_index = firstplayer_index # IT'S A BOLLEAN!!
         
     def who_acts_now(self):
@@ -98,6 +98,13 @@ class GameState():
     
     def game_over(self):
         raise NotImplementedError
+    
+    def __str__(self):
+    	pass
+    def __ repr__(self):
+    	pass
+    def __eq__(self):
+    	pass
         
         
 
@@ -130,37 +137,61 @@ class SsGameState(GameState):
          else:
             self.start_val -= client_move  #unassigned var
             
+            
+	 def __str__(self):
+    	pass
+    
+    def __ repr__(self):
+    	pass
+    
+    def __eq__(self):
+    	pass
+            
 class Strategy():
    '''General Games Strategy'''
     
    def __init__(self):
-      pass
+      raise NotImplementedError
+      
+	 def __str__(self):
+    	pass
+    
+    def __ repr__(self):
+    	pass
+    
+    def __eq__(self):
+    	pass
+            
         
-class Random_move(self):
+class Random_move(Strategy):
        ''' Generic solution. Choose a move from legel list of moves, returns that integer val'''
        # Parse for int val from a given list of moves 
        def __init__(self, list_moves):
          self.list_moves = list_moves()
          self.list_moves = self.listmoves.split('\n')  #['Choice 0: 0', 'Choice 1: 1']
        def random_choice(self):
-         ''' (Strategy_random_move)'''
-         choice = random.choice(list_moves)  # 'Choice 0: 0'
+         ''' (Strategy_rando_mmove)'''
+         self.choice = random.choice(list_moves)  # 'Choice 0: 0'
        while choice == '':                  # To avoid cases where the list conaints ""
-         choice = random.choice(list_moves)
+         self.choice = random.choice(list_moves)
          
          
       def ssparse_int_from_move(self):
+      	''' Parse the integer value from self.choice '''
       # Codes below are specific to SubtractSquare
          choice_break_down = choice.split(': ')  # ['Choice 0', '0']
          return int(choice_break_down[-1])    # index is hardcoded, hence position must be in form like above 
-    
-<<<<<<< HEAD
-=======
         
-
-
-
-
+	 def __str__(self):
+    	pass
+    
+    def __ repr__(self):
+    	pass
+    
+    def __eq__(self):
+    	pass
+            
+    
 #while game_over() == False:
  #   cur_val -= int()
  (game_min, game_max) = tuple(input("Please input the minimum and maximum for game's start value in following format: min, max")       # Ask user for start_val's range then assign them on this line.
