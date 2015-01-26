@@ -73,24 +73,25 @@ while game_over() == False
 
 
 
+import math
 class GameState():
     ''' A representation of a generic game state ''' 
     def __init__(self, playerA, firstplayer_index):
         ''' Upon init, program needs info about 1) Client's name 2) Which player will go first'''
-        self._playerA = playerA
-        self._list_players = [playerA, "computer"]
-        self._cur_player_index = firstplayer_index # IT'S A BOLLEAN!!
+        self.playerA = playerA
+        self.list_players = [playerA, "computer"]
+        self.cur_player_index = firstplayer_index # IT'S A BOLLEAN!!
         
     def who_acts_now(self):
         '''(GameState) -> str '''
-        return self._list_players[self._cur_player_index]
+        return self.list_players[self.cur_player_index]
     def game_updater(self):
         '''(GameState) -> None 
         This method is meant to be invoked when either player makes a move. This method updates general information about the game
         like current player
         '''
         # Players take turn
-        self._cur_player_index = not self._cur_player_index
+        self.cur_player_index = not self.cur_player_index
     
     def list_moves(self):
         raise NotImplementedError
@@ -99,16 +100,39 @@ class GameState():
         raise NotImplementedError
         
         
-        
-        
-        
-        
+class SsGameState(GameState):
     
-    
+    def __init__(self, playerA, firstplayer_index):
+        self.start_val = random.randint(game_min, game_max)  #unassigned var
+        GameState.__init__(self, playerA, firstplayer_index)
         
-
-
-
-
-while game_over() == False:
-    cur_val -= int()
+       
+       
+       
+    def list_moves(self):
+        counter = 0
+        self.list_moves_str = "" 
+        for number in range(self.start_val):
+            if math.sqrt(number) % 1 == 0.0:
+                list_moves_str += (str(counter) + ": " + str(number) + "\n")
+                counter += 1
+        return list_moves_str
+         
+       
+    def game_over(self):
+        if self.start_val == 0:
+            return True
+        else: 
+            return False
+       
+    def ssgame_updater(self):
+        if game_over() == True:
+            return None
+        else:
+            self.start_val -= client_move  #unassigned var
+            
+class Strategy():
+    
+    def __init__(self):
+        pass
+    
