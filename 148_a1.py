@@ -100,11 +100,29 @@ class GameState():
         raise NotImplementedError
         
         
+<<<<<<< HEAD
 class SsGameState(GameState):
     
     def __init__(self, playerA, firstplayer_index):
         self.start_val = random.randint(game_min, game_max)  #unassigned var
         GameState.__init__(self, playerA, firstplayer_index)
+=======
+class SsGameState():
+   def __init__(self, start_val):
+      self._start_val = random.randint(game_min, game_max)
+      
+      
+      
+   def list_moves(self):
+      
+   def game_over(self):
+      
+   def game_updater(self):
+      
+      
+        
+        
+>>>>>>> FETCH_HEAD
         
        
        
@@ -136,3 +154,14 @@ class Strategy():
     def __init__(self):
         pass
     
+<<<<<<< HEAD
+=======
+        
+
+
+
+
+#while game_over() == False:
+ #   cur_val -= int()
+ (game_min, game_max) = tuple(input("Please input the minimum and maximum for game's start value in following format: min, max")       # Ask user for start_val's range then assign them on this line.
+>>>>>>> FETCH_HEAD
