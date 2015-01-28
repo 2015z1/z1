@@ -13,7 +13,7 @@ class GameState():
         
         self.playerA = playerA
         self.list_players = ("Computer", playerA)
-        self.cur_player_index = firstplayer_index # IT'S A BOOLEAN!!
+        self.curGameState_player_index = firstplayer_index # IT'S A BOOLEAN!!
 
     def who_acts_now(self):
         '''(GameState) -> str 
@@ -55,9 +55,9 @@ class SsGameState(GameState):
     """
     A subclass of GameState specific to the game Subtract Square
     """
-    def __init__(self, playerA, firstplayer_index):
+    def __init__(self, playerA, firstplayer_index, start_val_tuple):
         
-        self.start_val = random.randint(int(start_val_range[0]), int(start_val_range[1]))  #unassigned var
+        self.start_val = random.randint(int(start_val_tuple[0]), int(start_val_tuple[1]))  #unassigned var
         GameState.__init__(self, playerA, firstplayer_index)
 
 
@@ -70,12 +70,11 @@ class SsGameState(GameState):
         """
         counter = 1
         list_moves_str = "" 
-        for number in range(1,self.start_val):
+        for number in range(1,self.start_val + 1):
             if math.sqrt(number) % 1 == 0.0:
                 list_moves_str += "Choice " + (str(counter) + ": " + str(number) + "\n")
                 counter += 1
         return list_moves_str    
-    
        
     def game_over(self):
         """
@@ -100,7 +99,8 @@ class SsGameState(GameState):
         if self.game_over() == True:
             return None
         else:
-            self.start_val -= client_move  #unassigned var
+            self.start_val = self.start_val - client_move  #unassigned var
+        self.game_updater()
             
             
     def __str__(self):
@@ -133,8 +133,8 @@ class RandomMove(Strategy):
     '''
        # Parse for int val from a given list of moves 
     def __init__(self, list_moves):
-        self.list_moves = list_moves()
-        self.list_moves = self.listmoves.split('\n')  #['Choice 1: 1', 'Choice 2: 4']
+        self.list_moves = list_moves
+        self.list_moves = self.list_moves.split('\n')  #['Choice 1: 1', 'Choice 2: 4']
     def random_choice(self):
         ''' 
         (list) - > str
@@ -143,7 +143,7 @@ class RandomMove(Strategy):
         'Choice 1: 1'
         '''
         self.choice = random.choice(self.list_moves)  # 'Choice 1: 1'
-        while choice == '':                  # To avoid cases where the list contains '' "
+        while self.choice == '':                  # To avoid cases where the list contains '' "
             self.choice = random.choice(self.list_moves)
          
          
@@ -160,8 +160,8 @@ class RandomMove(Strategy):
         return int(choice_break_down[-1])    # index is hardcoded, hence position must be in form like above
     
     def ai_pick_move(self):
-        random_choice()
-        ssparse_int_from_move()
+        self.random_choice()
+        return self.ssparse_int_from_move()
         
     def __str__(self):
         pass
@@ -192,24 +192,23 @@ class GameView():
         print('\t\t'.join(['Options', 'Games']))
         # Print number of game and name of game on the same line.
         for choice_num in self.dict_games:
-            print('\t\t'.join((str(choice_num), self.dict_games[choice_num])))                      
-        self.user_game = int(input("Please enter the number for the game you'd like to play: "))
-        while not (int(self.user_game) in self.dict_games):
+            print('\t\t'.join((str(choice_num), self.dict_games[choice_num])))                   
+        user_choice = input("Please enter the number for the game you'd like to play: ")
+        while not user_choice.isnumeric() or not (int(user_choice) in self.dict_games):
             print("You've chosen a game that is not on the list")
-            self.user_game = int(input("Please enter the number for the game you'd like to play: "))
-        return int(self.user_game)
+            user_choice = input("Please enter the number for the game you'd like to play: ")
+        return int(user_choice)
     
     def pick_strategy(self):
         '''(GameView, str) -> int'''
         print('\t\t'.join(['Options', 'Difficulties']))
         for choice_num in self.strategies_dict:
                     print('\t\t'.join((str(choice_num), self.strategies_dict[choice_num]))) 
-        self.user_strategy = int(input("There are various levels of difficulty for this game. Please enter the number for the difficulty you'd like to play: "))
-        while not (int(self.user_strategy) in self.strategies_dict):
+        user_choice = input("There are various levels of difficulty for this game. Please enter the number for the difficulty you'd like to play: ")
+        while not user_choice.isnumeric() or not (int(user_choice) in self.strategies_dict):
             print("You've chosen a difficulty level that is not on the list")
-            self.user_strategy = int(input("There are various levels of difficulty for this game. Please enter the number for the difficulty you'd like to play: "))
-
-        return int(self.user_strategy)
+            user_choice = input("There are various levels of difficulty for this game. Please enter the number for the difficulty you'd like to play: ")
+        return int(user_choice)
     
     def pick_who_first(self):
         '''(GameView, Boolean) -> Boolean'''
@@ -223,16 +222,16 @@ class GameView():
         return self.user_name
     def start_val_range(self):
         '''(GameView, Tuple) -> Tuple of str'''
-        self.user_choice_min = input("Please enter a whole number for the minimum for the start value: ")
-        while not (self.user_choice_min.isnumeric):
+        user_choice_min = input("Please enter a whole number for the minimum for the start value: ")
+        while not (user_choice_min.isnumeric):
             print("You've entered an invalid  entry")
-            self.user_choice_min = input("Please enter a whole number for the minimum for the start value: ")
+            user_choice_min = input("Please enter a whole number for the minimum for the start value: ")
 
-        self.user_choice_max = input(("Please enter the maximum for the start value: "))
-        while not (self.user_choice_max.isnumeric):
-            print("You've entered an invalid  entry")
-            self.user_choice_min = input("Please enter a whole number for the maximum for the start value: ")
-        return (self.user_choice_min, (self.user_choice_max))
+        user_choice_max = input(("Please enter a whole number for the maximum for the start value: "))
+        while not (user_choice_max.isnumeric):
+            print("You've entered an invalid entry")
+            user_choice_max = input("Please enter a whole number for the maximum for the start value: ")
+        return (int(user_choice_min), int(user_choice_max))
     
     
             
@@ -265,27 +264,36 @@ def display_info():
 
 
 if (__name__ == "__main__"):
-    gameview = GameView()
-    gameview.general_welcome()
-    user_name = gameview.get_name()
-    
-    if gameview.pick_game() == 1:
-        # Gathering pre-game info
-        subtract_square_help()
-        user_strategy = gameview.pick_strategy()
-        user_who_first = gameview.pick_who_first()
-        start_val_range = gameview.start_val_range()
-        ssgamestate = SsGameState(user_name, gameview.user_who_first)
-        # Player alternating turns till game is over
-    
-        while not ssgamestate.game_over():
-            if ssgamestate.list_players[user_who_first] == user_name:
-                display_info()
-                client_choice_int = int(input("Please choose a value from the available choices:"))  # Limit it to the legal moves
-                ssgamestate.ssgame_updater(client_choice_int)
-            elif user_strategy  == 1 and ssgamestate.list_players[user_who_first] == "Computer":
-                RandomMove(ssgamestate.list_moves()).ai_pick_move()
+    restart = ''
+    while restart == '':
+        gameview = GameView()
+        gameview.general_welcome()
+        user_name = gameview.get_name()
         
+        if gameview.pick_game() == 1:
+            # Gathering pre-game info
+            subtract_square_help()
+            user_strategy = gameview.pick_strategy() # static
+            user_who_first = gameview.pick_who_first() # varying
+            ssgamestate = SsGameState(user_name, user_who_first, )
+            # Player alternating turns till game is over
+        
+            while not ssgamestate.game_over():
+                if ssgamestate.list_players[ssgamestate.cur_player_index] == user_name:
+                    display_info()
+                    client_choice_int = int(input("Please choose a value from the available choices:"))  # Limit it to the legal moves
+                    ssgamestate.ssgame_updater(client_choice_int)
+                elif user_strategy  == 1 and ssgamestate.list_players[ssgamestate.cur_player_index] == "Computer":
+                    computer_move = RandomMove(ssgamestate.list_moves()).ai_pick_move()
+                    ssgamestate.ssgame_updater(computer_move)
+            if ssgamestate.game_over():
+                if ssgamestate.list_players[ssgamestate.cur_player_index] == user_name:
+                    print("Sorry. You've lost. Try again next time.")
+                elif ssgamestate.list_players[ssgamestate.cur_player_index] == "Computer":
+                    print("Congratulation! You've won. ")
+            restart = input("Would you like to play once more? Press enter to continue. Else,type no. Enter: ")
+           
+            
                 
         
         
